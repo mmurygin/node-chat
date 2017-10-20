@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  web:
+    build:
+      args:
+        NODE_ENV: development
+    volumes:
+      - .:/opt/app
+      - notused:/opt/app/node_modules
+    environment:
+      NODE_ENV: development
+
+volumes:
+  notused:
