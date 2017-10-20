@@ -3,8 +3,7 @@ version: '3.3'
 services:
   web:
     image: muryginm/chat:latest
-    build:
-      context: .
+    build: .
     environment:
       REDIS_HOST: redis
       REDiS_PORT: 6379

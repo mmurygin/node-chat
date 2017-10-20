@@ -2,12 +2,7 @@ FROM node:8.7.0-alpine
 
 RUN mkdir -p /opt/app
 
-ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
-
-ARG PORT=80
-ENV PORT $PORT
-EXPOSE $PORT
+ENV PORT 80
 
 WORKDIR /opt
 COPY package.json /opt
