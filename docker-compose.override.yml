@@ -2,6 +2,7 @@ version: '3.3'
 
 services:
   web:
+    build: .
     command: nodemon index.js
     volumes:
       - .:/opt/app
