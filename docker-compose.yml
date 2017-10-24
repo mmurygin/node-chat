@@ -8,6 +8,8 @@ services:
       REDiS_PORT: 6379
     ports:
       - 80:80
+    depends_on:
+      - redis
 
   redis:
     image: redis:4.0.2-alpine

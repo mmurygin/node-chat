@@ -59,10 +59,6 @@ $(function() {
     // if there is a non-empty message and a socket connection
     if (message && connected) {
       $inputMessage.val('');
-      addChatMessage({
-        username: username,
-        message: message
-      });
       // tell server to execute 'new message' and send along one parameter
       socket.emit('new message', message);
     }
@@ -233,7 +229,6 @@ $(function() {
     log(message, {
       prepend: true
     });
-    addParticipantsMessage(data);
   });
 
   // Whenever the server emits 'new message', update the chat body

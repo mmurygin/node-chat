@@ -1,12 +1,27 @@
 #!/usr/bin/env node
 
 // Setup basic express server
-var express = require('express');
-var app = express();
-var path = require('path');
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
-var port = process.env.PORT || 3000;
+const express = require('express');
+const app = express();
+const path = require('path');
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+const port = process.env.PORT || 3000;
+const redis = require('redis');
+const sub = redis.createClient({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+});
+const pub = redis.createClient({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+});
+
+sub.subscribe('new message');
+sub.subscribe('user joined');
+sub.subscribe('typing');
+sub.subscribe('stop typing');
+sub.subscribe('disconnect');
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -15,6 +30,10 @@ server.listen(port, function () {
 // Routing
 app.use(express.static(path.join(__dirname, 'public')));
 
+function publishEvent(chanell, obj) {
+  pub.publish(chanell, JSON.stringify(obj));
+}
+
 // Chatroom
 
 var numUsers = 0;
@@ -22,10 +41,14 @@ var numUsers = 0;
 io.on('connection', function (socket) {
   var addedUser = false;
 
+  sub.on('message', (chanell, message) => {
+    socket.emit(chanell, JSON.parse(message));
+  });
+
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
     // we tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
+    publishEvent('new message', {
       username: socket.username,
       message: data
     });
@@ -43,7 +66,7 @@ io.on('connection', function (socket) {
       numUsers: numUsers
     });
     // echo globally (all clients) that a person has connected
-    socket.broadcast.emit('user joined', {
+    publishEvent('user joined', {
       username: socket.username,
       numUsers: numUsers
     });
@@ -51,14 +74,14 @@ io.on('connection', function (socket) {
 
   // when the client emits 'typing', we broadcast it to others
   socket.on('typing', function () {
-    socket.broadcast.emit('typing', {
+    publishEvent('typing', {
       username: socket.username
     });
   });
 
   // when the client emits 'stop typing', we broadcast it to others
   socket.on('stop typing', function () {
-    socket.broadcast.emit('stop typing', {
+    publishEvent('stop typing', {
       username: socket.username
     });
   });
@@ -69,7 +92,7 @@ io.on('connection', function (socket) {
       --numUsers;
 
       // echo globally that this client has left
-      socket.broadcast.emit('user left', {
+      publishEvent('user left', {
         username: socket.username,
         numUsers: numUsers
       });

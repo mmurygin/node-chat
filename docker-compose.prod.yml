@@ -5,3 +5,5 @@ services:
     environment:
       NODE_ENV: production
     restart: on-failure
+  redis:
+    restart: on-failure
