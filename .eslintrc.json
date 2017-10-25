@@ -1,7 +1,9 @@
 {
     "env": {
         "es6": true,
-        "node": true
+        "node": true,
+        "browser": true,
+        "jquery": true
     },
     "extends": "eslint:recommended",
     "rules": {
@@ -20,6 +22,10 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "no-console": "off"
+    },
+    "globals": {
+        "io": true
     }
 }

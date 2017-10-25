@@ -28,9 +28,9 @@ $(function() {
   function addParticipantsMessage (data) {
     var message = '';
     if (data.numUsers === 1) {
-      message += "there's 1 participant";
+      message += 'there\'s 1 participant';
     } else {
-      message += "there are " + data.numUsers + " participants";
+      message += 'there are ' + data.numUsers + ' participants';
     }
     log(message);
   }
@@ -167,7 +167,7 @@ $(function() {
 
   // Gets the 'X is typing' messages of a user
   function getTypingMessages (data) {
-    return $('.typing.message').filter(function (i) {
+    return $('.typing.message').filter(function () {
       return $(this).data('username') === data.username;
     });
   }
@@ -177,7 +177,7 @@ $(function() {
     // Compute hash code
     var hash = 7;
     for (var i = 0; i < username.length; i++) {
-       hash = username.charCodeAt(i) + (hash << 5) - hash;
+      hash = username.charCodeAt(i) + (hash << 5) - hash;
     }
     // Calculate color
     var index = Math.abs(hash % COLORS.length);
@@ -222,10 +222,10 @@ $(function() {
   // Socket events
 
   // Whenever the server emits 'login', log the login message
-  socket.on('login', function (data) {
+  socket.on('login', function () {
     connected = true;
     // Display the welcome message
-    var message = "Welcome to Socket.IO Chat – ";
+    var message = 'Welcome to Socket.IO Chat – ';
     log(message, {
       prepend: true
     });
