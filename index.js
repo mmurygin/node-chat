@@ -20,12 +20,8 @@ server.listen(port, function () {
 // Routing
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Chatroom
-var numUsers = 0;
-
 io.on('connection', function (socket) {
   var addedUser = false;
-
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
@@ -36,21 +32,24 @@ io.on('connection', function (socket) {
     });
   });
 
+
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
     if (addedUser) return;
 
     // we store the username in the socket session for this client
     socket.username = username;
-    ++numUsers;
+
     addedUser = true;
-    io.emit('login', {
-      numUsers: numUsers
-    });
-    // echo globally (all clients) that a person has connected
-    io.emit('user joined', {
-      username: socket.username,
-      numUsers: numUsers
+    io.of('/').adapter.clients((err, clients) => {
+      io.emit('login', {
+        numUsers: clients.length,
+      });
+      // echo globally (all clients) that a person has connected
+      io.emit('user joined', {
+        username: socket.username,
+        numUsers: clients.length,
+      });
     });
   });
 
@@ -71,12 +70,12 @@ io.on('connection', function (socket) {
   // when the user disconnects.. perform this
   socket.on('disconnect', function () {
     if (addedUser) {
-      --numUsers;
-
-      // echo globally that this client has left
-      io.emit('user left', {
-        username: socket.username,
-        numUsers: numUsers
+      io.of('/').adapter.clients((err, clients) => {
+        // echo globally that this client has left
+        io.emit('user left', {
+          username: socket.username,
+          numUsers: clients.length,
+        });
       });
     }
   });
