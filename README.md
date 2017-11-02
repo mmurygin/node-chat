@@ -1,17 +1,42 @@
-
 # Socket.IO Chat
 
 A simple chat demo for socket.io
 
-## How to use
+## Getting Started
 
-```
-$ npm install
-$ npm start
-```
+1. Install `nodejs` >=8
 
-And point your browser to `http://localhost:3000`. Optionally, specify
-a port by supplying the `PORT` env variable.
+1. Install `redis`
+
+1. Install node modules
+
+    ```bash
+    npm install
+    ```
+
+1. Run app
+
+    ```bash
+    REDIS_HOST=localhost REDIS_PORT=6379 node index.js
+    ```
+
+## Dockerized version
+
+1. Install docker
+
+    ```bash
+    sudo curl -sSL https://get.docker.com/ | sh &&  sudo gpasswd -a ${USER} docker
+    ```
+
+    * Logout and login
+
+1. [Install docker-compose](https://github.com/docker/compose/releases)
+
+1. Run app
+
+    ```bash
+    docker-compose up
+    ```
 
 ## Features
 
