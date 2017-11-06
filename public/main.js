@@ -225,7 +225,7 @@ $(function() {
   socket.on('login', function () {
     connected = true;
     // Display the welcome message
-    var message = 'Welcome to Socket.IO Chat v1.0.0';
+    var message = 'Welcome to Socket.IO Chat v1.1.0';
     log(message, {
       prepend: true
     });
