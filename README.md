@@ -34,9 +34,17 @@ A simple chat demo for socket.io
 
 1. Run app
 
-    ```bash
-    docker-compose up
-    ```
+    * production
+
+        ```bash
+        docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+        ```
+
+    * dev
+
+        ```bash
+        docker-compose up
+        ```
 
 ## Features
 
