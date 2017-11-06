@@ -12,4 +12,4 @@ services:
       - redis
 
   redis:
-    image: redis:4.0.2-alpine
+    image: redis:4.0.2

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A simple chat client using socket.io",
   "main": "index.js",
-  "license": "BSD",
   "scripts": {
     "start": "node index.js",
     "lint": "eslint ."
@@ -20,5 +19,11 @@
   },
   "nodemonConfig": {
     "ext": "js json html css"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:m-murygin/node-chat.git"
+  },
+  "homepage": "https://github.com/m-murygin/node-chat#readme",
+  "license": "MIT"
 }
